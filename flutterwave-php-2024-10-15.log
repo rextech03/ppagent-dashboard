@@ -1,0 +1,5 @@
+[2024-10-15T12:57:34.948592+00:00] Flutterwave/PHP.NOTICE: Card Service::Initiating Card Payment... [] []
+[2024-10-15T12:57:34.950583+00:00] Flutterwave/PHP.NOTICE: Charge Group::Verifying Payload  ... [] []
+[2024-10-15T12:57:34.950662+00:00] Flutterwave/PHP.NOTICE: Card Service::Payload Confirmed... [] []
+[2024-10-15T12:57:34.950739+00:00] Flutterwave/PHP.NOTICE: Card Service::Started Charging Card tx_ref:(TEST-670e66bee68fa1728997054)... [] []
+[2024-10-15T12:57:36.434689+00:00] Flutterwave/PHP.NOTICE: Card Event::Authorization Mode: pin [] []
