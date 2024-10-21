@@ -68,7 +68,7 @@ class SuggestionController extends Controller
         $suggestion->update($request->validated());
           
         return redirect()->route('suggestions.index')
-                        ->with('success', 'Suggestions updated successfully');
+                        ->with('success', 'Suggestion updated successfully');
     }
 
     /**

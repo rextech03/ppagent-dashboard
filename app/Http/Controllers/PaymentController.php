@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+
 use App\Models\Payment;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
@@ -9,6 +11,7 @@ use App\Http\Requests\UpdatePaymentRequest;
 use Illuminate\Support\Facades\Redirect;
 use Paystack;
 
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -16,8 +19,9 @@ use Paystack;
 class PaymentController extends Controller
 {
 
-    public function paymentVerification(Request $request)
+    public function paymentVerification(StorePaymentRequest $request)
     {
+        
         $ref = $request->input('reference');
         $curl = curl_init();
 
@@ -54,64 +58,32 @@ class PaymentController extends Controller
         //     return (new GeneralController)->apiResponse(false, "Partial payment", null);
         // }
 
-        //user check  
-        // $user = User::where('email', $request->email)->first();
-        // if (!$user) {
-        //     $user = new User();
-        //     $user->name = $request->name;
-        //     $user->email = $request->email;
-        //     $user->phone = $request->phone;
-        //     // $user->password = Hash::make('12345678');
-        //     $user->save();
-        // }
-
-       
-        $payment = new Payment();
-        // $bookings->user_id = $user->id;
-        $payment->room_id = $request->room_id;
-        // $bookings->check_in = Carbon::parse($request->checkin_date);
-        // $bookings->check_out = Carbon::parse($request->checkout_date);
-        $payment->payment_status = "Paid";
-        $payment->status = "confirmed";
+      
+        Payment::create([
+            'reference' => $ref,
+            'tenant_id' => Auth::id(),
+            'amount' => $amount,
+            'purpose' =>  $result->data->metadata->purpose,
+            'room_id' => $result->data->metadata->room_id,
+            'payment_status' => "Paid",
+            'status' => "confirmed",
+        ]);
         
-        $payment->save();
-        
-        // $newBookings = Booking::where('id', $bookings->id)->with('room', 'user')->first();
-        // $sendMail = (new EmailController)->confirmBooking($newBookings);
-        // if (!$sendMail->status) {
-        //     return $sendMail;
-        // }
-        return response()->json(['message' => 'Booking was successful! please check your email for the qr code ', "status" => true]);
+    //    dd($result->data->metadata->purpose);
+        return redirect('payments');
 
-
-        // $data = ['result' => $result->data, 'user' => $user];
-        // return (new GeneralController)->apiResponse(true, '', $data);
     }
-    public function redirectToGateway()
-    {
-        //
-        try{
-            return Paystack::getAuthorizationUrl()->redirectNow();
-        }catch(\Exception $e) {
-            return Redirect::back()->withMessage(['msg'=>'The paystack token has expired. Please refresh the page and try again.', 'type'=>'error']);
-        }        
-    }
-    public function handleGatewayCallback()
-    {
-        //
-        $paymentDetails = Paystack::getPaymentData();
-
-        dd($paymentDetails);
-    }
+   
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-          
+        $payments = Payment::latest()->paginate(5);
 
-        return view('pay');
+        return view('payments.index', compact('payments')) 
+        ->with('i', (request()->input('page', 1) - 1) * 5);;
     }
 
     /**
@@ -130,76 +102,40 @@ class PaymentController extends Controller
     {
         //
         //This generates a payment reference
+        $url = "https://api.paystack.co/transaction/initialize";
 
-
+        $fields = [
+          'email' => Auth::user()->email,
+          'amount' => $request['amount'] * 100,
+          'callback_url' => "http://127.0.0.1:8000/payment-verification",
+          'metadata' => [
+            "room_id" => Auth::user()->room_no,
+            "purpose" => "rent",
+            "cancel_action" => "http://127.0.0.1:8000/pay"]
+        ];
+      
+        $fields_string = http_build_query($fields);
+      
+        //open connection
+        $ch = curl_init();
         
-
-    // $payload = [
-    //     "tx_ref" => Flutterwave::generateTransactionReference(),
-    //     "amount" => 100,
-    //     "currency" => Currency::NGN,
-    //     "customer" => [
-    //         "email" => "developers@flutterwavego.com"
-    //     ],
-    // ];
-
-    // $payment_details = Flutterwave::render('inline', $payload);
-
-    // return view('flutterwave::modal', compact('payment_details'));
-
-
-
-
-    // new section
-
-
-
-    //  $payload = [
-    //     'card_number' => '646547658',
-    //     'cvv' => '324',
-    //     'expiry_month' => '02',
-    //     'expiry_year' => '24',
-    //     'currency' => 'NGN',
-    //     'amount' => '2344',
-    //     'email' => 'ark@gail.co',
-    //     'fullname' => 'ark ogujiuba',
-    //     'tx_ref' => 'jkjjhjhj',
-    //     'redirect_url' => url('/pay/redirect'),
-    // ];
-
-    // $response = $cardChargeService->chargeCard($payload);
-    // switch ($response['meta']['authorization']['mode'] ?? null) {
-    //     case 'pin':
-    //     case 'avs_noauth':
-    //         // Store the current payload
-    //         Session::put('charge_payload', $payload);
-    //         // Now we'll show the user a form to enter
-    //         // the requested fields (PIN or billing details)
-    //         Session::put('auth_fields', $response['meta']['authorization']['fields']);
-    //         Session::put('auth_mode', $response['meta']['authorization']['mode']);
-    //         return redirect('/pay/authorize');
-    //     case 'redirect':
-    //         // Store the transaction ID
-    //         // so we can look it up later with the flw_ref
-    //         Redis::set("txref-{$response['data']['tx_ref']}", $response['data']['id']);
-    //         // Auth type is redirect,
-    //         // so just redirect to the customer's bank
-    //         $authUrl = $response['meta']['authorization']['redirect'];
-    //         return redirect($authUrl);
-    //     default:
-    //         // No authorization needed; just verify the payment
-    //         $transactionId = $response['data']['id'];
-    //         $transaction = $cardChargeService->verifyTransaction($transactionId);
-    //         if ($transaction['data']['status'] == "successful") {
-    //             return redirect('/payment-successful');
-    //         } else if ($transaction['data']['status'] == "pending") {
-    //             // Schedule a job that polls for the status of the payment every 10 minutes
-    //             dispatch(new CheckTransactionStatus($transactionId));
-    //             return redirect('/payment-processing');
-    //         } else {
-    //             return redirect('/payment-failed');
-    //         }
-    //     }
+        //set the url, number of POST vars, POST data
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_POST, true);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+          "Authorization: Bearer sk_test_c5adadff66894219fad4623b3372522e23b350dd",
+          "Cache-Control: no-cache",
+        ));
+        
+        //So that curl_exec returns the contents of the cURL; rather than echoing it
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
+        
+        //execute post
+        $result = curl_exec($ch);
+        // echo $result;
+        $tranx = json_decode($result);
+        return redirect($tranx->data->authorization_url);
 
     }
 

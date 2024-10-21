@@ -12,9 +12,13 @@ class Payment extends Model
     protected $fillable = [
         'reference',
         'room_id',
+        'tenant_id',
+        'amount',
+        'email',
         'purpose',
         'phone',
         'payment_status',
         'confirmed_status',
+        'status',
     ];
 }

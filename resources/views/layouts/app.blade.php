@@ -13,8 +13,8 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     
-    <script src="https://js.paystack.co/v1/inline.js"></script>
-    <script src="/pay.js"></script>
+    <!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
+    <!-- <script src="/pay.js"></script> -->
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -54,8 +54,13 @@
                         @else
                         <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                                <a class="nav-link" href="/suggestions">
+                                <a class="nav-link" href="/users">
                                     Users
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/rooms">
+                                    Rooms
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -94,60 +99,6 @@
     </div>
 
 
-    <script>
-        function paystackPay() {
-    var amount = document.getElementById("amount").value * 100;
-    var email = document.getElementById("email").value;
-    var name = document.getElementById("name").value;
-    // var phone = document.getElementById("phone").value;
-    var room_id = document.getElementById("room_id").value;
-
-    let handler = PaystackPop.setup({
-        key: 'pk_test_aeb239c1402332dc262d56d7b1fab1d3b3450249',
-        amount: amount,
-        email: email,
-        ref: '' + Math.floor((Math.random() * 1000000000) +
-            1),
-        onClose: function() {
-            alert('Window closed.');
-        },
-        callback: function(response) {
-            let reference = response.reference;
-
-            // verify payment
-            $.ajax({
-                type: "GET",
-                url: "{{ URL::to('payment-verification') }}",
-                data: {
-                    name: name,
-                    email:email,
-                    // phone:phone,
-                    room_id: room_id,
-                    reference:reference
-                },
-                success: function(response) {
-                    console.log(response['status']);
-                    if (response['status'] == true) {
-                        Swal.fire({
-                            title: 'Payment Successfully done',
-                            text: response['message'],
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Payment Failed',
-                            text: 'Failed to verify payment',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                }
-            })
-        }
-    });
-    handler.openIframe();
-}
-</script>
+    
 </body>
 </html>

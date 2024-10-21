@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,8 @@ Route::resource('/suggestions', SuggestionController::class);
 Route::resource('/payments', PaymentController::class);
 
 Route::resource('/users', UserController::class);
+
+Route::resource('/rooms', RoomController::class);
 
 
 Route::get("payment-verification", [App\Http\Controllers\PaymentController::class, 'paymentVerification'])->name('payment-verification');

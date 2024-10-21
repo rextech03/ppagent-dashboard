@@ -2,32 +2,41 @@
 
 @section('content')
 
-
-<form method="POST" action="{{ route('pay') }}" accept-charset="UTF-8" class="form-horizontal" role="form">
-    @csrf
-    <div class="row" style="margin-bottom:40px;">
-        <div class="col-md-8 col-md-offset-2">
-            <p>
-                <div>
-                    Lagos Eyo Print Tee Shirt
-                    ₦ 2,950
-                </div>
-            </p>
-            <input type="hidden" name="email" value="otemuyiwa@gmail.com"> {{-- required --}}
-            <input type="hidden" name="orderID" value="345">
-            <input type="hidden" name="amount" value="800"> {{-- required in kobo --}}
-            <input type="hidden" name="quantity" value="3">
-            <input type="hidden" name="currency" value="NGN">
-            <input type="hidden" name="metadata" value="{{ json_encode($array = ['key_name' => 'value',]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
-            <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}"> {{-- required --}}
-
-            <p>
-                <button class="btn btn-success btn-lg btn-block" type="submit" value="Pay Now!">
-                    <i class="fa fa-plus-circle fa-lg"></i> Pay Now!
-                </button>
-            </p>
+<div>
+@if(session('success'))
+            <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+        @endif
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-success btn-sm" href="{{ route('payments.create') }}"><i class="fa fa-plus"></i> New payments</a>
         </div>
-    </div>
-</form>
-
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Room no</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Purpose</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  @forelse ($payments as $payment)
+    <tr>
+      <th scope="row">{{ ++$i }}</th>
+      <td>{{ $payment->room_id }}</td>
+      <td>{{ $payment->amount }}</td>
+      <td>{{ $payment->purpose }}</td>
+      <td>{{ $payment->created_at }}</td>
+    </tr>
+    <tr>
+    @empty
+                    <tr>
+                        <td colspan="4">There are no data.</td>
+                    </tr>
+                @endforelse
+   
+  </tbody>
+</table>
+{!! $payments->links() !!}
+</div>
 @endsection

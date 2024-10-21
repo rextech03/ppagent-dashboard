@@ -14,13 +14,16 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->string('reference');
-            $table->string('room_id');
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('purpose');
-            $table->string('payment_status');
-            $table->string('confirmed_status');
+            $table->string('tenant_id');
+            $table->string('room_id')->nullable();
+            $table->string('amount')->nullable();
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('purpose')->nullable();
+            $table->string('payment_status')->nullable();
+            $table->string('confirmed_status')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

@@ -2,37 +2,32 @@
 
 @section('content')
 
-<div>
-    <h4 class="text-3xl">Pay with Card</h4>
-</div>
-<!-- <form action="{{ route('payments.store') }}" method="post"> -->
 
-<form method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay">
+<form method="POST" action="{{ route('payments.store') }}" accept-charset="UTF-8" class="form-horizontal" role="form">
     @csrf
-  <div>
-    Pay in full or pay in part. Enter amount to pay.
-  </div>
-  <input type="hidden" name="public_key" value="FLWPUBK_TEST-02b9b5fc6406bd4a41c3ff141cc45e93-X" />
-  <input type="hidden" name="customer[email]" value="test@mailnator.com" />
-  <input type="hidden" name="customer[name]" value="Ayomide Jimi-Oni" />
-  <input type="hidden" name="tx_ref" value="txref-81123" />
-  <input type="number" class="form-control" name="amount" placeholder="2000" required/>
-  <input type="hidden" name="currency" value="NGN" />
-  <input type="hidden" name="meta[token]" value="54" />
-<input type="hidden" name="configurations[session_duration]" value="10" /> 
-<input type="hidden" name="configurations[max_retry_attempt]" value="5" /> 
+    <div class="row" style="margin-bottom:40px;">
+        <div class="col-md-8 col-md-offset-2">
+            <p>
+                <div>
+                    Lagos Eyo Print Tee Shirt
+                    ₦ 2,950
+                </div>
+            </p>
+            <input type="hidden" name="email" value="otemuyiwa@gmail.com"> {{-- required --}}
+            <input type="hidden" name="orderID" value="345">
+            <input type="hidden" name="amount" value="800"> {{-- required in kobo --}}
+            <input type="hidden" name="quantity" value="3">
+            <input type="hidden" name="currency" value="NGN">
+            <input type="hidden" name="metadata" value="{{ json_encode($array = ['key_name' => 'value',]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
+            <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}"> {{-- required --}}
 
-  <input type="hidden" name="meta[source]" value="docs-html-test" />
-
-  <br>
-
-<!-- 
-    <input type="hidden" name="redirect_url" value="http://127.0.0.1:8000/payment" />
- -->
-
-  <button type="submit" class="btn btn-primary" id="start-payment-button">Pay Now</button>
+            <p>
+                <button class="btn btn-success btn-lg btn-block" type="submit" value="Pay Now!">
+                    <i class="fa fa-plus-circle fa-lg"></i> Pay Now!
+                </button>
+            </p>
+        </div>
+    </div>
 </form>
-
-
 
 @endsection
