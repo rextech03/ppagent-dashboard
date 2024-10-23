@@ -7,6 +7,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Support\Facades\Auth;
+
+use App\Models\room;
+
 class UserController extends Controller
 {
     /**
@@ -72,6 +76,55 @@ class UserController extends Controller
     {
         //
         return view('users.show', compact('user'));
+    }
+
+     /**
+     * Show the form for editing the specified resource.
+     */
+    public function profile()
+    {
+        //
+        $rooms = room::all();
+        $user = User::where('id', Auth::id())->first();
+        // return dd($rooms);
+        return view('profile', compact('user', 'rooms'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        //
+        
+        // $request->validate([
+        //    'name' => ['required', 'string', 'max:255'],
+        //     'email' => ['required', 'string', 'email', 'max:255'],
+        //     'room_no' => ['required'],
+        //     // 'phone_no' => ['required'],
+        //     // 'rent_start_date' => ['required'],
+        //     // 'rent_end_date' => ['required'],
+        //     'about' => ['required'],
+        //     // 'password' => ['required', 'string', 'min:8', 'confirmed'],
+        //   ]);
+          
+          $user_id = Auth::id();
+        //   $post = User::find($user_id);
+        
+        //   $post->update($request->all());
+        $roomdata = room::where('room_no', $request->room_no)->first();;
+        $data = User::find($user_id);
+        $data->room_no = $request->room_no;
+        $data->dues = $roomdata->dues;
+        $data->rent = $roomdata->price;
+        $data->about = $request->about;
+
+        $roomdata->occupant = $user_id;
+
+        $data->save();
+
+        $roomdata->save();
+
+            
+          return redirect()->route('profile')
+            ->with('success', 'profile updated successfully.');
     }
 
     /**

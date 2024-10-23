@@ -27,6 +27,7 @@ class UpdatesuggestionRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255',
             'suggestion' => 'required|string',
+            'photos' => 'string',
         ];
     }
 }

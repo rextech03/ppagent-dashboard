@@ -22,7 +22,7 @@
                     <th>Location</th>
                     <th>Room No</th>
                     <th>Price</th>
-                    <th>Occupant</th>
+                    <!-- <th>Occupant</th> -->
                     <th>Description</th>
                     <th width="250px">Action</th>
                 </tr>
@@ -35,11 +35,16 @@
                         <td>{{ $room->location }}</td>
                         <td>{{ $room->room_no }}</td>
                         <td>{{ $room->price }}</td>
-                        <td>{{ $room->occupant }}</td>
+                        <!-- <td>{{ $room->occupant }}</td> -->
                         <td>{{ $room->description }}</td>
                         <td>
                             <form action="{{ route('rooms.destroy',$room->id) }}" method="POST">
-                                <a class="btn btn-info btn-sm" href="{{ route('rooms.show',$room->id) }}"><i class="fa-solid fa-list"></i> Show</a>
+                            @if (!empty( $room->occupant))
+                            <a class="btn btn-secondary btn-sm" href="{{ route('users.show',$room->id) }}"><i class="fa-solid fa-list"></i> view occupant</a>
+                            @else
+                            <p>No Occupant</p>
+                            @endif
+                               <a class="btn btn-info btn-sm" href="{{ route('rooms.show',$room->id) }}"><i class="fa-solid fa-list"></i> Show</a>
                                 <a class="btn btn-primary btn-sm" href="{{ route('rooms.edit',$room->id) }}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
                                 @csrf
                                 @method('DELETE')
@@ -49,7 +54,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4">There are no data.</td>
+                        <td colspan="12" class="text-center">There are no data.</td>
                     </tr>
                 @endforelse
             </tbody>

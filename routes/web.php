@@ -34,6 +34,9 @@ Route::resource('/users', UserController::class);
 Route::resource('/rooms', RoomController::class);
 
 
+Route::get('/profile', [App\Http\Controllers\UserController::class, 'profile'])->name('profile');
+Route::put('/updateProfile', [App\Http\Controllers\UserController::class, 'updateProfile'])->name('updateProfile');
+
 Route::get("payment-verification", [App\Http\Controllers\PaymentController::class, 'paymentVerification'])->name('payment-verification');
 
 Route::get('/pay', [App\Http\Controllers\PaymentController::class, 'index'])->name('pay');

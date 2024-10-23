@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Payment;
+
 class HomeController extends Controller
 {
     /**
@@ -23,6 +25,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // 
+        if (Auth::user()->email == 'admin@gmail.com') {
+            # code...
+            $payments = Payment::latest()->paginate(5);
+           
+        }else {
+            # code...
+            $payments = Payment::where('tenant_id', '=', Auth::id())->paginate(5);
+        }
+        // $payments = Payment::latest()->paginate(5);
+        return view('home', compact('payments'));
     }
 }

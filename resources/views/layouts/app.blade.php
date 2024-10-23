@@ -13,9 +13,8 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     
-    <!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
-    <!-- <script src="/pay.js"></script> -->
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet"> 
+    <link rel="stylesheet" href="{{ asset('dropzone.css') }}" />
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
@@ -53,6 +52,7 @@
                             @endif
                         @else
                         <ul class="navbar-nav ms-auto">
+                            @if(Auth::user()->email == 'admin@gmail.com')
                         <li class="nav-item">
                                 <a class="nav-link" href="/users">
                                     Users
@@ -63,6 +63,12 @@
                                     Rooms
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/home">
+                                    Home
+                                </a>
+                            </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="/suggestions">
                                     Suggestions
@@ -98,7 +104,9 @@
         </main>
     </div>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
 </body>
 </html>

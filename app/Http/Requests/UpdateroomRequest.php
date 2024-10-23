@@ -23,10 +23,13 @@ class UpdateroomRequest extends FormRequest
     {
         return [
             //
+            
             'location'  => 'required|string|max:255',
             'price' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'occupant' => 'required|string',
+            'room_no'=> 'required|string|max:255',
+            'dues' => 'required|string|max:255',
         ];
     }
 }

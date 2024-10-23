@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('room_no');
+            $table->string('rent');
+            $table->string('dues');
             $table->string('phone_no');
             $table->dateTime('rent_start_date');
             $table->dateTime('rent_end_date');

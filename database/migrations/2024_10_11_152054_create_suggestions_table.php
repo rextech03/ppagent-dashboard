@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('room_no');
             $table->string('suggestion');
+            $table->string('photos');
             $table->timestamps();
         });
     }

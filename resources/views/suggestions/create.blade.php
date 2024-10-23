@@ -11,7 +11,7 @@
             <a class="btn btn-primary btn-sm" href="{{ route('suggestions.index') }}"><i class="fa fa-arrow-left"></i> Back</a>
         </div>
 
-        <form action="{{ route('suggestions.store') }}" method="POST">
+        <form action="{{ route('suggestions.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -65,9 +65,28 @@
                     <div class="form-text text-danger">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="mb-3">
+                <label for="photos" class="form-label"><strong>Upload Photos:</strong></label>
+                <input 
+                type="file" 
+                class="form-control" 
+                name="photos" 
+                id="photos" 
+                placeholder="Upload photos"
+                multiple
+                 />
+               
+                @error('photos')
+                    <div class="form-text text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
             <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Submit</button>
         </form>
 
     </div>
 </div>
+
+
 @endsection

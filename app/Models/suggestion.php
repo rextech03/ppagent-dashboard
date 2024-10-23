@@ -14,5 +14,6 @@ class suggestion extends Model
         'email',
         'room_no',
         'suggestion',
+        'photos',
     ];
 }

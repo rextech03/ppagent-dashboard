@@ -38,7 +38,7 @@ class RoomController extends Controller
         Room::create($request->validated());
            
         return redirect()->route('rooms.index')
-                         ->with('success', 'Suggestion sent successfully.');
+                         ->with('success', 'Room sent successfully.');
     }
 
     /**

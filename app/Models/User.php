@@ -26,6 +26,8 @@ class User extends Authenticatable
         'rent_end_date',
         'about',
         'password',
+        'rent',
+        'dues',
     ];
 
     /**

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
-
 use App\Models\Payment;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
@@ -110,7 +108,7 @@ class PaymentController extends Controller
           'callback_url' => "http://127.0.0.1:8000/payment-verification",
           'metadata' => [
             "room_id" => Auth::user()->room_no,
-            "purpose" => "rent",
+            "purpose" => $request['purpose'],
             "cancel_action" => "http://127.0.0.1:8000/pay"]
         ];
       

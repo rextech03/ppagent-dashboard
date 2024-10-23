@@ -26,7 +26,9 @@ class StoreroomRequest extends FormRequest
             'location'  => 'required|string|max:255',
             'price' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'occupant' => 'required|string',
+            'occupant' => 'optional|string',
+            'room_no'=> 'required|string|max:255',
+            'dues' => 'required|string|max:255',
         ];
     }
 }

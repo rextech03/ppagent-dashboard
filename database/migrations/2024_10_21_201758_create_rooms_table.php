@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('location');
             $table->string('price');
+            $table->string('dues');
             $table->string('description');
             $table->string('room_no');
             $table->string('occupant')->nullable();
