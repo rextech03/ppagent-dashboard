@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Payment;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PayEmail;
 
 class HomeController extends Controller
 {
@@ -36,5 +39,10 @@ class HomeController extends Controller
         }
         // $payments = Payment::latest()->paginate(5);
         return view('home', compact('payments'));
+    }
+    public function sendNotification() {
+        return Mail::to(Auth::user()->email)->send(new PayEMail([
+            'name' => 'Tenant',
+       ]));
     }
 }

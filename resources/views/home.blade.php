@@ -27,18 +27,18 @@
       
   </div>
   <div class="card-body">
-    <h5 class="card-title">Rent due in 3 days</h5>
+    <!-- <h5 class="card-title">Rent due in 3 days</h5> -->
     <p class="card-text">Pay now or set a reminder.</p>
     <div class="flex">
     <a href="/payments/create" class="btn btn-primary">Pay Now</a>
-    <a href="#" class="btn btn-danger">Set Notification</a>
+    <a href="/send_notification" class="btn btn-danger">Send Notification</a>
     </div>
   </div>
 </div>
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
+     
       <th scope="col">Room no</th>
       <th scope="col">Amount</th>
       <th scope="col">Purpose</th>
@@ -48,7 +48,7 @@
   <tbody>
   @forelse ($payments as $payment)
     <tr>
-      <th scope="row">{{ ++$i }}</th>
+   
       <td>{{ $payment->room_id }}</td>
       <td>{{ $payment->amount }}</td>
       <td>{{ $payment->purpose }}</td>

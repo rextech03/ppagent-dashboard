@@ -25,6 +25,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/send_notification', [App\Http\Controllers\HomeController::class, 'sendNotification'])->name('send_notification');
+
+
 Route::resource('/suggestions', SuggestionController::class);
 
 Route::resource('/payments', PaymentController::class);
