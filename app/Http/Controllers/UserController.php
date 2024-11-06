@@ -86,7 +86,7 @@ class UserController extends Controller
         //
         $rooms = room::all();
         $user = User::where('id', Auth::id())->first();
-        // return dd($rooms);
+        // return dd($user);
         return view('profile', compact('user', 'rooms'));
     }
 

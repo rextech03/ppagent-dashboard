@@ -17,6 +17,90 @@
     <link rel="stylesheet" href="{{ asset('dropzone.css') }}" />
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <style>
+    .h1 {
+        letter-spacing: -0.02em;
+    }
+    .dropzone {
+        overflow-y: auto;
+        border: 0;
+        background: transparent;
+    }
+    .dz-preview {
+        width: 80%;
+        margin: 0 !important;
+        height: 10%;
+        padding: 15px;
+        align-self: end;
+       
+    }
+    .dz-photo {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 12px;
+        background: #eae7e2;
+    }
+    .dz-drag-hover .dropzone-drag-area {
+        border-style: solid;
+        border-color: #86b7fe;;
+    }
+    .dz-thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .dz-image {
+        width: 90px !important;
+        height: 90px !important;
+        border-radius: 6px !important;
+    }
+    .dz-remove {
+        display: none !important;
+    }
+    .dz-delete {
+        width: 24px;
+        height: 24px;
+        background: rgba(0, 0, 0, 0.57);
+        position: absolute;
+        opacity: 0;
+        transition: all 0.2s ease;
+        top: 30px;
+        right: 30px;
+        border-radius: 100px;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .dz-delete > svg {
+        transform: scale(0.75);
+        cursor: pointer;
+    }
+    .dz-preview:hover .dz-delete, 
+    .dz-preview:hover .dz-remove-image {
+        opacity: 1;
+    }
+    .dz-message {
+        height: 100%;
+        margin: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .dropzone-drag-area {
+        height: 300px;
+        position: relative;
+        padding: 0 !important;
+        border-radius: 10px;
+        border: 3px dashed #dbdeea;
+    }
+    .was-validated .form-control:valid {
+        border-color: #dee2e6 !important;
+        background-image: none;
+    }
+</style>
 </head>
 <body>
     <div id="app">
@@ -109,6 +193,73 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+        <script>
+    Dropzone.autoDiscover = false;
+
+    /**
+     * Setup dropzone
+     */
+    $('#formDropzone').dropzone({
+        previewTemplate: $('#dzPreviewContainer').html(),
+        // url: '/form-submit',
+        addRemoveLinks: true,
+        autoProcessQueue: false,       
+        uploadMultiple: false,
+        parallelUploads: 1,
+        maxFiles: 1,
+        acceptedFiles: '.jpeg, .jpg, .png, .gif',
+        thumbnailWidth: 600,
+        thumbnailHeight: 600,
+        previewsContainer: "#previews",
+        timeout: 0,
+        init: function() 
+        {
+            myDropzone = this;
+
+            // when file is dragged in
+            this.on('addedfile', function(file) { 
+                $('.dropzone-drag-area').removeClass('is-invalid').next('.invalid-feedback').hide();
+            });
+        },
+        success: function(file, response) 
+        {
+            // hide form and show success message
+            $('#formDropzone').fadeOut(600);
+            setTimeout(function() {
+                $('#successMessage').removeClass('d-none');
+            }, 600);
+        }
+    });
+
+    /**
+     * Form on submit
+     */
+    $('#formSubmit').on('click', function(event) {
+        event.preventDefault();
+        var $this = $(this);
+        
+        // show submit button spinner
+        $this.children('.spinner-border').removeClass('d-none');
+        
+        // validate form & submit if valid
+        if ($('#formDropzone')[0].checkValidity() === false) {
+            event.stopPropagation();
+
+            // show error messages & hide button spinner    
+            $('#formDropzone').addClass('was-validated'); 
+            $this.children('.spinner-border').addClass('d-none');
+
+            // if dropzone is empty show error message
+            if (!myDropzone.getQueuedFiles().length > 0) {                        
+                $('.dropzone-drag-area').addClass('is-invalid').next('.invalid-feedback').show();
+            }
+        } else {
+
+            // if everything is ok, submit the form
+            myDropzone.processQueue();
+        }
+    });
+
+</script>
 </body>
 </html>
