@@ -24,6 +24,8 @@ return new class extends Migration
             $table->dateTime('rent_start_date');
             $table->dateTime('rent_end_date');
             $table->string('about');
+            $table->string('role');
+            $table->string('assigned_location');
             $table->rememberToken();
             $table->timestamps();
         });

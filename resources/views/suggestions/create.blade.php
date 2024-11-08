@@ -68,17 +68,17 @@
 
             <div class="mb-3">
                 <label for="photos" class="form-label"><strong>Upload Photos:</strong></label>
-                <!-- <input 
+                <input 
                 type="file" 
                 class="form-control" 
-                name="photos" 
+                name="images[]" 
                 id="photos" 
                 placeholder="Upload photos"
                 multiple
-                 /> -->
+                 />
                  <!-- <input name="images[]" class="form-control" type="file" multiple /> -->
 
-                 <div class="form-group mb-4">
+                 <!-- <div class="form-group mb-4">
                 <label class="form-label text-muted opacity-75 fw-medium" for="formImage">Image</label>
                 <div class="dropzone-drag-area form-control" id="previews">
                     <div class="dz-message text-muted opacity-50" data-dz-message>
@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="invalid-feedback fw-bold">Please upload an image.</div>
-            </div>
+            </div> -->
                
                 @error('photos')
                     <div class="form-text text-danger">{{ $message }}</div>

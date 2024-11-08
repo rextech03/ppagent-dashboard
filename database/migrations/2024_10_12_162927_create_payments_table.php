@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->string('reference');
-            $table->string('tenant_id');
+            $table->string('tenant_id')->constrained('users');;
             $table->string('room_id')->nullable();
             $table->string('amount')->nullable();
             $table->string('name')->nullable();

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('suggestions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('suggester')->constrained('users');
             $table->string('name');
             $table->string('email');
             $table->string('room_no');

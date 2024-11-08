@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\User;
+
 class room extends Model
 {
     use HasFactory;
@@ -17,4 +19,10 @@ class room extends Model
         'occupant',
         'dues',
     ];
+
+    public function user_room()
+        {
+            return $this->belongsTo(User::class);
+        }
+    
 }

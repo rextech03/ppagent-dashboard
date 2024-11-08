@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('dues');
             $table->string('description');
             $table->string('room_no');
-            $table->string('occupant')->nullable();
+            $table->foreignId('occupant')->constrained('users');
             $table->timestamps();
         });
     }

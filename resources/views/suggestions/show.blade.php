@@ -19,8 +19,33 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                 <div class="form-group">
+                    <strong>Email:</strong> <br/>
+                    {{ $suggestion->room_no }}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
+                <div class="form-group">
+                    <strong>Room no:</strong> <br/>
+                    {{ $suggestion->room_no }}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
+                <div class="form-group">
                     <strong>contents:</strong> <br/>
                     {{ $suggestion->suggestion }}
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
+                <div class="form-group">
+                    <strong>Images</strong> <br/>
+                    <div class="row">
+                    @foreach(json_decode($suggestion->photos) as $image)
+                    <div class="col-auto zoom">
+                    <img src="{{ asset($image) }}" width="424"/>
+                    </div>
+                    @endforeach
+
                 </div>
             </div>
         </div>

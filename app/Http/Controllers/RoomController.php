@@ -56,6 +56,7 @@ class RoomController extends Controller
     public function edit(room $room)
     {
         //
+        dd($room->user_room);
         return view('rooms.edit', compact('room'));
     }
 
