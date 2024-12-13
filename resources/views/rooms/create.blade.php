@@ -4,25 +4,30 @@
 @section('content')
 
 <div class="card mt-5">
-    <h2 class="card-header">Add New Room</h2>
+    <h2 class="card-header">Add New Room  </h2>
     <div class="card-body">
 
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <div class="d-grid gap-2 d-md-flex justify-content-between">
+            <a class="btn btn-primary btn-sm" href="{{ route('locations.create') }}"><i class="fa fa-home"></i> Create Location</a>
             <a class="btn btn-primary btn-sm" href="{{ route('rooms.index') }}"><i class="fa fa-arrow-left"></i> Back</a>
         </div>
 
         <form action="{{ route('rooms.store') }}" method="POST">
             @csrf
 
+           
             <div class="mb-3">
                 <label for="inputLocation" class="form-label"><strong>Location:</strong></label>
-                <input 
-                    type="text" 
-                    name="location" 
-                    class="form-control @error('name') is-invalid @enderror" 
-                    id="inputLocation" 
-                    placeholder="location">
-                @error('name')
+               
+                <select   id="inputLocation" name="location" class="form-select @error('location') is-invalid @enderror" aria-label="select location">
+            <option selected>Select a location</option>
+            @forelse ($locations as $inputLocation)
+            <option value="{{ $inputLocation->hostel_location }}">{{ $inputLocation->hostel_location }}</option>
+            @empty
+            <option value="0">There are no data.</option>
+            @endforelse
+        </select>
+        @error('location')
                     <div class="form-text text-danger">{{ $message }}</div>
                 @enderror
             </div>
@@ -78,6 +83,7 @@
                     <div class="form-text text-danger">{{ $message }}</div>
                 @enderror
             </div>
+           
             <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Submit</button>
         </form>
 

@@ -39,16 +39,16 @@
                         <td>{{ $room->description }}</td>
                         <td>
                             <form action="{{ route('rooms.destroy',$room->id) }}" method="POST">
-                            @if (!empty( $room->occupant))
-                            <a class="btn btn-secondary btn-sm" href="{{ route('users.show',$room->id) }}"><i class="fa-solid fa-list"></i> view occupant</a>
+                            @if ( $room->occupant != '1')
+                            <a class="btn btn-secondary btn-sm" href="{{ route('users.show',$room->id) }}"><i class="fa fa-list"></i> view occupant</a>
                             @else
                             <p>No Occupant</p>
                             @endif
-                               <a class="btn btn-info btn-sm" href="{{ route('rooms.show',$room->id) }}"><i class="fa-solid fa-list"></i> Show</a>
-                                <a class="btn btn-primary btn-sm" href="{{ route('rooms.edit',$room->id) }}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                               <a class="btn btn-info btn-sm" href="{{ route('rooms.show',$room->id) }}"><i class="fa fa-list"></i> Show</a>
+                                <a class="btn btn-primary btn-sm" href="{{ route('rooms.edit',$room->id) }}"><i class="fa fa-pen"></i> Edit</a>
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</button>
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</button>
                             </form>
                         </td>
                     </tr>

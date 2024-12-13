@@ -21,6 +21,16 @@
                     <strong>Room number:</strong> <br/>
                     {{ $room->room_no }}
                 </div>
+
+                <div class="form-group">
+                    <strong>Occupant Name:</strong> <br/>
+                    {{ $room_occupant->name }}
+                </div>
+
+                <div class="form-group">
+                    <strong>Occupant Email:</strong> <br/>
+                    {{ $room_occupant->email }}
+                </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                 <div class="form-group">

@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('dues');
             $table->string('description');
             $table->string('room_no');
-            $table->foreignId('occupant')->constrained('users');
+            $table->foreignId('occupant')->constrained('users');    
+            // $table->foreign('occupant')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

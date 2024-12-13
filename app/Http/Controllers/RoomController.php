@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\room;
+use App\Models\User;
+use App\Models\Location;
 use App\Http\Requests\StoreroomRequest;
 use App\Http\Requests\UpdateroomRequest;
+use Illuminate\Http\Request;
+
+use Validator;
 
 class RoomController extends Controller
 {
@@ -15,7 +20,9 @@ class RoomController extends Controller
     {
         //
         $rooms = Room::latest()->paginate(5);
-          
+       
+        
+
         return view('rooms.index', compact('rooms'))
                     ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -26,19 +33,40 @@ class RoomController extends Controller
     public function create()
     {
         //
-        return view('rooms.create');
+        $locations = Location::all();
+        return view('rooms.create', compact('locations'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreroomRequest $request)
+    public function store(Request $request)
     {
         //
-        Room::create($request->validated());
+        // $request->validate([
+        // 'location' => ['required', 'string', 'max:255'],
+        // 'room_no' => ['required', 'string', 'max:255'], 
+        // 'price' => ['required', 'string', 'max:255'], 
+        // 'description' => ['required', 'string', 'max:255'], 
+        // 'occupant' => ['required', 'string', 'max:255'], 
+        // 'dues' => ['required', 'string', 'max:255'], 
+        // ]);
+        
+        
+         $room_location = $request['location'] . ' ' .'Room' . ' ' . $request['room_no'];
+        //  dd($room_location);
+        Room::create([
            
+        'location' => $request['location'],
+        'room_no'  => $room_location,
+        'price' => $request['price'],
+        'description' => $request['description'],
+        'occupant' => 1,
+        'dues'=> $request['dues'],
+        ]);
+          
         return redirect()->route('rooms.index')
-                         ->with('success', 'Room sent successfully.');
+                         ->with('success', 'Room created successfully.');
     }
 
     /**
@@ -47,7 +75,11 @@ class RoomController extends Controller
     public function show(room $room)
     {
         //
-        return view('rooms.show', compact('room'));
+        // $room = Room::find(1);
+        $room_owner = $room->occupant;
+        $room_occupant = User::find($room->occupant);
+        // dd($room_occupant->phone_no);
+        return view('rooms.show', compact('room', 'room_occupant'));
     }
 
     /**
@@ -56,7 +88,7 @@ class RoomController extends Controller
     public function edit(room $room)
     {
         //
-        dd($room->user_room);
+        // dd($room->user_room);
         return view('rooms.edit', compact('room'));
     }
 

@@ -12,6 +12,25 @@
                         @csrf
 
                         <div class="row mb-3">
+                            <label for="role" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+
+                            <div class="col-md-6">
+                                <!-- <input id="role" type="text" > -->
+
+                                <select name="role" id="role" class="form-select @error('role') is-invalid @enderror" name="role" value="{{ old('role') }}" required  autofocus>
+                                    <option value="tenant">Tenant</option>
+                                    <option value="supervisor">Supervisor</option>
+                                </select>
+
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
@@ -46,8 +65,15 @@
                             <label for="room_no" class="col-md-4 col-form-label text-md-end">{{ __('Room No') }}</label>
 
                             <div class="col-md-6">
-                                <input id="room_no" type="text" class="form-control @error('room_no') is-invalid @enderror" name="room_no" value="{{ old('room_no') }}" required >
-
+                                <!-- <input id="room_no" type="text" class="form-control @error('room_no') is-invalid @enderror" name="room_no" value="{{ old('room_no') }}" required > -->
+                                <select   id="inputRoom_no"name="room_no" class="form-select" aria-label="Default select example">
+                                    <option selected>Select Room</option>
+                                    @forelse ($rooms as $room)
+                                    <option value="{{ $room->room_no }}">{{ $room->room_no }}</option>
+                                    @empty
+                                    <option value="0">There are no data.</option>
+                                    @endforelse
+                                </select>
                                 @error('room_no')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -147,7 +173,7 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Register Tenant') }}
+                                    {{ __('Register User') }}
                                 </button>
                             </div>
                         </div>

@@ -12,25 +12,12 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet"> 
-    <link rel="stylesheet" href="{{ asset('dropzone.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" /> 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-    <style>
-    .zoom {
-  
-  
-  transition: transform .2s; /* Animation */
-  
-  margin: 1 auto;
-}
-
-.zoom:hover {
-  transform: scale(2.0); /* (200% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-}
-</style>
+    
+   
 </head>
 <body>
     <div id="app">
@@ -120,76 +107,8 @@
         </main>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-    Dropzone.autoDiscover = false;
-
-    /**
-     * Setup dropzone
-     */
-    $('#formDropzone').dropzone({
-        previewTemplate: $('#dzPreviewContainer').html(),
-        // url: '/form-submit',
-        addRemoveLinks: true,
-        autoProcessQueue: false,       
-        uploadMultiple: false,
-        parallelUploads: 1,
-        maxFiles: 1,
-        acceptedFiles: '.jpeg, .jpg, .png, .gif',
-        thumbnailWidth: 600,
-        thumbnailHeight: 600,
-        previewsContainer: "#previews",
-        timeout: 0,
-        init: function() 
-        {
-            myDropzone = this;
-
-            // when file is dragged in
-            this.on('addedfile', function(file) { 
-                $('.dropzone-drag-area').removeClass('is-invalid').next('.invalid-feedback').hide();
-            });
-        },
-        success: function(file, response) 
-        {
-            // hide form and show success message
-            $('#formDropzone').fadeOut(600);
-            setTimeout(function() {
-                $('#successMessage').removeClass('d-none');
-            }, 600);
-        }
-    });
-
-    /**
-     * Form on submit
-     */
-    $('#formSubmit').on('click', function(event) {
-        event.preventDefault();
-        var $this = $(this);
-        
-        // show submit button spinner
-        $this.children('.spinner-border').removeClass('d-none');
-        
-        // validate form & submit if valid
-        if ($('#formDropzone')[0].checkValidity() === false) {
-            event.stopPropagation();
-
-            // show error messages & hide button spinner    
-            $('#formDropzone').addClass('was-validated'); 
-            $this.children('.spinner-border').addClass('d-none');
-
-            // if dropzone is empty show error message
-            if (!myDropzone.getQueuedFiles().length > 0) {                        
-                $('.dropzone-drag-area').addClass('is-invalid').next('.invalid-feedback').show();
-            }
-        } else {
-
-            // if everything is ok, submit the form
-            myDropzone.processQueue();
-        }
-    });
-
-</script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> -->
+       
 </body>
 </html>

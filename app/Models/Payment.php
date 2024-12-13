@@ -17,6 +17,7 @@ class Payment extends Model
         'email',
         'purpose',
         'phone',
+        'purpose_period',
         'payment_status',
         'confirmed_status',
         'status',

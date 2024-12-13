@@ -5,7 +5,7 @@ use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoomController;
-
+use App\Http\Controllers\HostelLocationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,3 +45,19 @@ Route::get("payment-verification", [App\Http\Controllers\PaymentController::clas
 Route::get('/pay', [App\Http\Controllers\PaymentController::class, 'index'])->name('pay');
 Route::get('/payment/callback', [App\Http\Controllers\PaymentController::class, 'handleGatewayCallback'])->name('callback');;
 
+
+
+// // returns the home page with all posts
+Route::get('/locations', HostelLocationController::class .'@index')->name('locations.index');
+// returns the form for adding a post
+Route::get('/locations/create', HostelLocationController::class . '@create')->name('locations.create');
+// adds a post to the database
+Route::post('/locations', HostelLocationController::class .'@store')->name('locations.store');
+// returns a page that shows a full post
+Route::get('/locations/{location}', HostelLocationController::class .'@show')->name('locations.show');
+// returns the form for editing a post
+Route::get('/locations/{location}/edit', HostelLocationController::class .'@edit')->name('locations.edit');
+// updates a post
+Route::put('/locations/{location}', HostelLocationController::class .'@update')->name('locations.update');
+// deletes a post
+Route::delete('/locations/{location}', HostelLocationController::class .'@destroy')->name('locations.destroy');

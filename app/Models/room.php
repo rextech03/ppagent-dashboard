@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
 
-class room extends Model
+class Room extends Model
 {
     use HasFactory;
 
+    
     protected $fillable = [
         'location',
         'room_no',
@@ -18,11 +19,11 @@ class room extends Model
         'description',
         'occupant',
         'dues',
-    ];
+    ]; 
 
     public function user_room()
         {
-            return $this->belongsTo(User::class);
+            return $this->belongsTo(User::class, 'occupant', 'id');
         }
     
 }

@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->string('reference');
-            $table->string('tenant_id')->constrained('users');;
-            $table->string('room_id')->nullable();
+            $table->string('tenant_id')->constrained('users');
+            $table->string('room_id')->constrained('rooms');
             $table->string('amount')->nullable();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('purpose')->nullable();
+            $table->integer('purpose_period')->nullable();
             $table->string('payment_status')->nullable();
             $table->string('confirmed_status')->nullable();
             $table->string('status')->nullable();

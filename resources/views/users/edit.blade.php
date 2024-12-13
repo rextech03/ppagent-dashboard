@@ -30,13 +30,21 @@
 
             <div class="mb-3">
                 <label for="inputRoom_no" class="form-label"><strong>Room no:</strong></label>
-                <input 
+                <!-- <input 
                     type="number" 
                     name="room_no" 
                     value="{{ $user->room_no }}"
                     class="form-control @error('room_no') is-invalid @enderror" 
                     id="inputRoom_no" 
-                    placeholder="100">
+                    placeholder="100"> -->
+                    <select   id="inputRoom_no"name="room_no" class="form-select" aria-label="Default select example">
+                                    <option selected>{{ $user->room_no }}</option>
+                                    @forelse ($rooms as $room)
+                                    <option value="{{ $room->room_no }}">{{ $room->room_no }}</option>
+                                    @empty
+                                    <option value="0">There are no data.</option>
+                                    @endforelse
+                                </select>
                 @error('room_no')
                     <div class="form-text text-danger">{{ $message }}</div>
                 @enderror
@@ -57,18 +65,18 @@
             </div>
 
             <div class="mb-3">
-                <label for="user" class="form-label"><strong>user:</strong></label>
+                <label for="about" class="form-label"><strong>About:</strong></label>
                 <textarea 
-                    class="form-control @error('user') is-invalid @enderror" 
+                    class="form-control @error('about') is-invalid @enderror" 
                     style="height:150px" 
-                    name="user" 
-                    id="user" 
+                    name="about" 
+                    id="about" 
                     placeholder="content">{{ $user->about }}</textarea>
                 @error('user')
                     <div class="form-text text-danger">{{ $message }}</div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Update</button>
+            <button type="submit" class="btn btn-success"><i class="fa fa-floppy-disk"></i> Update</button>
         </form>
 
     </div>

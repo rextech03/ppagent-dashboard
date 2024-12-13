@@ -90,7 +90,8 @@ class PaymentController extends Controller
     public function create()
     {
         //
-        return view('payments.create');
+        $purpose_periods = [2018, 2019, 2020, 2021, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
+        return view('payments.create', compact('purpose_periods'));
     }
 
     /**

@@ -20,7 +20,6 @@ class UserController extends Controller
     {
         //
         $users = User::latest()->paginate(5);
-          
         return view('users.index', compact('users'))
                     ->with('i', (request()->input('page', 1) - 1) * 5);
         
@@ -32,7 +31,8 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('users.create');
+        $rooms = room::all();
+        return view('users.create', compact('rooms'));
     }
 
     /**
@@ -42,6 +42,7 @@ class UserController extends Controller
     {
         //
         $request->validate([
+            'role' => ['required'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'room_no' => ['required'],
@@ -53,8 +54,9 @@ class UserController extends Controller
             
             
         ]);
-
-        User::create([
+        $roomdata = room::where('room_no', $request->room_no)->first();
+        $created_user = User::create([
+            'role' => $request['role'],
             'name' => $request['name'],
             'email' => $request['email'],
             'room_no' => $request['room_no'],
@@ -62,8 +64,13 @@ class UserController extends Controller
             'rent_start_date' => $request['rent_start_date'],
             'rent_end_date' => $request['rent_end_date'],
             'about' => $request['about'],
+            'rent' => '400000',
+            'dues' => '100000',
             'password' => Hash::make($request['password']),
         ]);
+        // dd($created_user['id']);
+        $roomdata->occupant = $created_user['id'];
+        $roomdata->save();
 
         return redirect()->route('users.index')
                          ->with('success', 'User added successfully.');
@@ -109,7 +116,7 @@ class UserController extends Controller
         //   $post = User::find($user_id);
         
         //   $post->update($request->all());
-        $roomdata = room::where('room_no', $request->room_no)->first();;
+        $roomdata = room::where('room_no', $request->room_no)->first();
         $data = User::find($user_id);
         $data->room_no = $request->room_no;
         $data->dues = $roomdata->dues;
@@ -133,7 +140,8 @@ class UserController extends Controller
     public function edit(user $user)
     {
         //
-        return view('users.edit', compact('user'));
+        $rooms = room::all();
+        return view('users.edit', compact('user', 'rooms'));
     }
 
     /**
@@ -149,11 +157,15 @@ class UserController extends Controller
             // 'phone_no' => ['required'],
             // 'rent_start_date' => ['required'],
             // 'rent_end_date' => ['required'],
-            // 'about' => ['required'],
+            'about' => ['required'],
             // 'password' => ['required', 'string', 'min:8', 'confirmed'],
           ]);
-          $post = User::find($id);
-          $post->update($request->all());
+          $user = User::find($id);
+        //   dd($user->id);
+          $user->update($request->all());
+          $roomdata = room::where('room_no', $request->room_no)->first();
+          $roomdata->occupant = $user->id;
+          $roomdata->save();
           return redirect()->route('users.index')
             ->with('success', 'User updated successfully.');
     }

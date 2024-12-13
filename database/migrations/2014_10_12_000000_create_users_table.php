@@ -17,15 +17,15 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('room_no');
+            $table->string('room_no')->default('0');
             $table->string('rent');
             $table->string('dues');
             $table->string('phone_no');
             $table->dateTime('rent_start_date');
             $table->dateTime('rent_end_date');
             $table->string('about');
-            $table->string('role');
-            $table->string('assigned_location');
+            $table->string('role')->default('tenant');
+            $table->string('assigned_location')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
